@@ -63,10 +63,6 @@ JavaScript Puro (ES6)
 Nenhum framework necessário.
 Roda offline, no navegador, em qualquer dispositivo.
 
-![Tela Principal](imagens/tela-principal.png)
-![Cardápio](imagens/cardapio.png)
-![Comanda Impressão](imagens/impressao.png)
-
 <img width="1328" height="594" alt="image" src="https://github.com/user-attachments/assets/6cdc1ba4-34d6-42d6-91b4-8fba269631f2" />
 <img width="1340" height="378" alt="image" src="https://github.com/user-attachments/assets/b2c2ff18-fba0-4ba5-952d-7dfb56406677" />
 <img width="400" height="353" alt="image" src="https://github.com/user-attachments/assets/51b5fed5-6df8-43ce-b018-8df9f8d27567" />
