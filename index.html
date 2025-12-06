@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sistema de Pedidos — DEU FOME</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <h1>🍽 Sistema de Pedidos — DEU FOME 🍽</h1>
+
+  <!-- CAMPO DO CLIENTE -->
+  <div class="panel">
+    <h2>Cliente</h2>
+    <div class="selector">
+      <label>
+        <input type="text" id="cliente" placeholder="Digite o nome do cliente">
+      </label>
+    </div>
+  </div>
+
+  <!-- CONTROLES GERAIS -->
+  <div class="panel">
+    <h2>Configurações do pedido</h2>
+    <div class="controls">
+      <label>Dia do cardápio
+        <select id="dia" onchange="atualizarMenu()">
+          <option value="segunda">Segunda-feira</option>
+          <option value="terca">Terça-feira</option>
+          <option value="quarta">Quarta-feira</option>
+          <option value="quinta">Quinta-feira</option>
+          <option value="sexta">Sexta-feira</option>
+          <option value="sabado">Sábado</option>
+        </select>
+      </label>
+      <label>Tamanho da quentinha
+        <select id="tamanho">
+          <option value="P">P (2 proteínas) — R$ 10,00</option>
+          <option value="G">G (3 proteínas) — R$ 15,00</option>
+        </select>
+      </label>
+
+      <label>Entrega ou retirada
+        <select id="tipoEntrega" onchange="toggleEndereco()">
+          <option value="retirada">Retirada</option>
+          <option value="entrega">Entrega</option>
+        </select>
+      </label>
+
+      <label id="bairroWrap" style="display:none">Bairro (taxa de entrega)
+        <select id="bairro">
+          <option value="">— selecione —</option>
+          <option value="Ana Leite">Ana Leite — R$ 8,00</option>
+          <option value="Alto da Tubiba">Alto da Tubiba — R$ 8,00</option>
+          <option value="B. Vitória">B. Vitória — R$ 7,00</option>
+          <option value="Bela Vista">Bela Vista — R$ 7,00</option>
+          <option value="Belo Horizonte">Belo Horizonte — R$ 7,00</option>
+          <option value="Bivar Olinto">Bivar Olinto — R$ 7,00</option>
+          <option value="Brasília">Brasília — R$ 6,00</option>
+          <option value="Centro">Centro — R$ 6,00</option>
+          <option value="Condomínio dos Portugueses">Condomínio dos Portugueses — R$ 8,00</option>
+          <option value="Condomínio Vilas do Lago">Condomínio Vilas do Lago — R$ 7,00</option>
+          <option value="Conjunto Geralda Medeiros">Conjunto Geralda Medeiros — R$ 7,00</option>
+          <option value="Conjunto Itatiunga">Conjunto Itatiunga — R$ 8,00</option>
+          <option value="Conjunto José Mariz">Conjunto José Mariz — R$ 6,00</option>
+          <option value="Cruz da Menina">Cruz da Menina — R$ 8,00</option>
+          <option value="Distrito industrial">Distrito industrial — R$ 8,00</option>
+          <option value="Dona milindra">Dona milindra — R$ 7,00</option>
+          <option value="Estados">Estados — R$ 8,00</option>
+          <option value="Geraldo Carvalho">Geraldo Carvalho — R$ 7,00</option>
+          <option value="Jardim Brasil">Jardim Brasil — R$ 7,00</option>
+          <option value="Jardim Califórnia">Jardim Califórnia — R$ 6,00</option>
+          <option value="Jardim Colonial">Jardim Colonial — R$ 8,00</option>
+          <option value="Jardim Europa">Jardim Europa — R$ 8,00</option>
+          <option value="Jardim Guanabara">Jardim Guanabara — R$ 6,00</option>
+          <option value="Jardim Lacerda">Jardim Lacerda — R$ 6,00</option>
+          <option value="Jardim Magnólia">Jardim Magnólia — R$ 8,00</option>
+          <option value="Jardim Queiroz">Jardim Queiroz — R$ 7,00</option>
+          <option value="Jardim Redenção">Jardim Redenção — R$ 6,00</option>
+          <option value="Jardim Santa Teresa">Jardim Santa Teresa — R$ 8,00</option>
+          <option value="Jatobá">Jatobá — R$ 7,00</option>
+          <option value="Juá Doce">Juá Doce — R$ 7,00</option>
+          <option value="Liberdade">Liberdade — R$ 6,00</option>
+          <option value="Loteamento Campestre">Loteamento Campestre — R$ 6,00</option>
+          <option value="Loteamento Luar do Angelita">Loteamento Luar do Angelita — R$ 7,00</option>
+          <option value="Loteamento Ridete">Loteamento Ridete — R$ 7,00</option>
+          <option value="Luar Carmem Leda">Luar Carmem Leda — R$ 8,00</option>
+          <option value="Matadouro">Matadouro — R$ 8,00</option>
+          <option value="Maternidade">Maternidade — R$ 6,00</option>
+          <option value="Monte Castelo">Monte Castelo — R$ 7,00</option>
+          <option value="Morada do Sol">Morada do Sol — R$ 7,00</option>
+          <option value="Morro">Morro — R$ 6,00</option>
+          <option value="Mutirão">Mutirão — R$ 7,00</option>
+          <option value="Nóe Trajano">Nóe Trajano — R$ 8,00</option>
+          <option value="Nova Brasília">Nova Brasília — R$ 7,00</option>
+          <option value="Nova Conquista">Nova Conquista — R$ 7,00</option>
+          <option value="Novo Horizonte">Novo Horizonte — R$ 7,00</option>
+          <option value="Placas">Placas — R$ 7,00</option>
+          <option value="Sapateiros">Sapateiros — R$ 7,00</option>
+          <option value="Salgadinho">Salgadinho — R$ 7,00</option>
+          <option value="Santa Cecília">Santa Cecília — R$ 7,00</option>
+          <option value="Santa Clara">Santa Clara — R$ 7,00</option>
+          <option value="Santo Antônio">Santo Antônio — R$ 6,00</option>
+          <option value="São Judas">São Judas — R$ 8,00</option>
+          <option value="São Sebastião">São Sebastião — R$ 7,00</option>
+          <option value="Sete Casas">Sete Casas — R$ 8,00</option>
+          <option value="Vila Cavalcante">Vila Cavalcante — R$ 7,00</option>
+          <option value="Vila Mariana">Vila Mariana — R$ 8,00</option>
+          <option value="Vila Teimosa">Vila Teimosa — R$ 7,00</option>
+          <option value="Vista da Serra">Vista da Serra — R$ 7,00</option>
+        </select>
+      </label>
+
+      <label>Forma de pagamento
+        <select id="pagamento" onchange="toggleTroco()">
+          <option value="pix">PIX</option>
+          <option value="dinheiro">Dinheiro</option>
+        </select>
+      </label>
+
+      <label id="trocoWrap" style="display:none">Troco para
+        <input type="text" id="trocoPara" placeholder="Ex: 50,00">
+      </label>
+
+      <label>Status
+        <select id="statusPago">
+          <option value="sim">Pago</option>
+          <option value="nao">Não Pago</option>
+        </select>
+      </label>
+    </div>
+  </div>
+
+  <!-- CARDÁPIO -->
+  <div class="panel menu">
+    <h2>Acompanhamentos</h2>
+    <div id="menuAcompanhamentos" class="grid grid-3"></div>
+  </div>
+
+  <div class="panel proteina">
+    <h2>Proteínas</h2>
+    <div id="menuProteinas" class="grid grid-3"></div>
+  </div>
+
+  <div class="panel saladas">
+    <h2>Saladas</h2>
+    <div id="menuSaladas" class="grid grid-3"></div>
+  </div>
+
+  <!-- MONTAGEM DA QUENTINHA ATUAL -->
+  <div class="panel">
+    <div class="row">
+      <h2>Montagem da quentinha atual</h2>
+      <div class="row" style="gap:8px">
+        <button class="btn-ghost" onclick="limparQuentinhaAtual()">Limpar seleção</button>
+        <button class="btn-wide" onclick="adicionarQuentinha()">➕ Adicionar Quentinha</button>
+      </div>
+    </div>
+    <div class="spacer"></div>
+    <div id="chipsSelecionados" class="muted">Nenhum item selecionado ainda.</div>
+    <div class="spacer"></div>
+    <small class="muted">Limite automático de proteínas: <strong>P = 2</strong> • <strong>G = 3</strong></small>
+  </div>
+
+  <!-- COMANDA FINAL -->
+  <div class="panel">
+    <h2>Comanda</h2>
+    <div class="selector" style="margin-bottom:12px">
+      <label style="min-width:100%">Observações
+        <textarea id="observacoes" placeholder="Ex: sem cebola, molho à parte..."></textarea>
+      </label>
+    </div>
+
+    <table id="pedidoTabela">
+      <thead>
+        <tr>
+          <th style="width:110px">Tamanho</th>
+          <th>Itens</th>
+          <th style="width:130px">Ações</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <div class="spacer"></div>
+    <button class="btn-wide" onclick="imprimirPedido()">🖨️ Imprimir Pedido</button>
+  </div>
+
+  <!-- TOAST -->
+  <div id="toast">Quentinha adicionada à comanda!</div>
+
+<script src="js/script.js"></script>
+</body>
+</html>
