@@ -1,3 +1,4 @@
+/* =================== TAXAS DE ENTREGA =================== */
 const taxasEntrega = {
   "Ana Leite": 8, "Alto da Tubiba": 8, "B. Vitória": 7, "Bela Vista": 7, "Belo Horizonte": 7,
   "Bivar Olinto": 7, "Brasília": 6, "Centro": 6, "Condomínio dos Portugueses": 8,
@@ -16,12 +17,14 @@ const taxasEntrega = {
   "Vila Mariana": 8, "Vila Teimosa": 7, "Vista da Serra": 7
 };
 
+/* =================== CONFIG =================== */
 const PRECO_P = 10;
 const PRECO_G = 15;
+
 let quentinhaAtual = [];
 let pedido = [];
 
-/* ====== Cardápio por dia ====== */
+/* =================== CARDÁPIO =================== */
 const cardapio = {
   segunda: {
     acompanhamentos: ['Arroz branco', 'Arroz de Leite', 'Feijão preto', 'Feijão na farofa', 'Macarrão espaguete (molho de tomate)'],
@@ -55,7 +58,7 @@ const cardapio = {
   }
 };
 
-/* ====== Utilitários ====== */
+/* =================== UTIL =================== */
 const fmt = n => (n ?? 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
 function isProteina(item) {
@@ -69,20 +72,23 @@ function toast(msg) {
   setTimeout(() => el.classList.remove('show'), 1600);
 }
 
-/* ====== Renderização do cardápio ====== */
+/* =================== MENU =================== */
 function atualizarMenu() {
   const dia = document.getElementById('dia').value;
   const a = document.getElementById('menuAcompanhamentos');
   const p = document.getElementById('menuProteinas');
   const s = document.getElementById('menuSaladas');
+
   a.innerHTML = p.innerHTML = s.innerHTML = '';
 
   cardapio[dia].acompanhamentos.forEach(item => {
     a.innerHTML += `<button onclick="addItem('${item}', 'outro')">${item}</button>`;
   });
+
   cardapio[dia].proteinas.forEach(item => {
     p.innerHTML += `<button onclick="addItem('${item}', 'proteina')">${item}</button>`;
   });
+
   cardapio[dia].saladas.forEach(item => {
     s.innerHTML += `<button onclick="addItem('${item}', 'outro')">${item}</button>`;
   });
@@ -91,33 +97,63 @@ function atualizarMenu() {
   renderSelecionados();
 }
 
-function renderSelecionados() {
-  const el = document.getElementById('chipsSelecionados');
-  if (quentinhaAtual.length === 0) {
-    el.innerHTML = '<span class="muted">Nenhum item selecionado ainda.</span>';
-    return;
-  }
-  el.innerHTML = quentinhaAtual.map((item, idx) =>
-    `<span class="chip">${item}<span class="x" onclick="removerItemAtual(${idx})">×</span></span>`
-  ).join('');
-}
-
+/* =================== SISTEMA DE PROTEÍNAS =================== */
+/* LIBERADO REPETIR PROTEÍNA */
 function addItem(item, tipo) {
-  if (tipo === 'proteina') {
-    const tam = document.getElementById('tamanho').value;
-    const max = tam === 'P' ? 2 : 3;
+  const tamanho = document.getElementById("tamanho").value;
+  const limite = tamanho === "P" ? 2 : 3;
+
+  if (tipo === "proteina") {
     const qtdProteinas = quentinhaAtual.filter(isProteina).length;
-    if (!quentinhaAtual.includes(item) && qtdProteinas >= max) {
-      alert(`Quentinha ${tam} só pode ter ${max} proteínas.`);
+
+    if (qtdProteinas >= limite) {
+      alert(`Quentinha ${tamanho} só pode ter ${limite} proteínas.`);
       return;
     }
   }
+
   quentinhaAtual.push(item);
   renderSelecionados();
 }
 
-function removerItemAtual(idx) {
-  quentinhaAtual.splice(idx, 1);
+/* Ajusta caso troque o tamanho */
+function ajustarLimiteAoTrocarTamanho() {
+  const tamanho = document.getElementById("tamanho").value;
+  const limite = tamanho === "P" ? 2 : 3;
+
+  let proteinas = quentinhaAtual.filter(isProteina);
+
+  if (proteinas.length > limite) {
+    const remover = proteinas.length - limite;
+
+    for (let i = 0; i < remover; i++) {
+      const prot = proteinas.pop();
+      const idx = quentinhaAtual.indexOf(prot);
+      quentinhaAtual.splice(idx, 1);
+    }
+
+    alert(`Agora a quentinha ${tamanho} só pode ter ${limite} proteínas. Ajustamos automaticamente.`);
+    renderSelecionados();
+  }
+}
+
+/* =================== RENDER SELEÇÃO =================== */
+function renderSelecionados() {
+  const el = document.getElementById('chipsSelecionados');
+
+  if (quentinhaAtual.length === 0) {
+    el.innerHTML = '<span class="muted">Nenhum item selecionado ainda.</span>';
+    return;
+  }
+
+  el.innerHTML = quentinhaAtual
+    .map((item, i) =>
+      `<span class="chip">${item}<span class="x" onclick="removerItemAtual(${i})">×</span></span>`
+    ).join('');
+}
+
+function removerItemAtual(i) {
+  quentinhaAtual.splice(i, 1);
   renderSelecionados();
 }
 
@@ -126,34 +162,38 @@ function limparQuentinhaAtual() {
   renderSelecionados();
 }
 
-/* ====== Comanda ====== */
+/* =================== ADICIONAR QUENTINHA =================== */
 function adicionarQuentinha() {
-  if (quentinhaAtual.length === 0) return alert('Adicione itens à quentinha antes.');
-
-  const tam = document.getElementById('tamanho').value;
-  const max = tam === 'P' ? 2 : 3;
+  const tamanho = document.getElementById('tamanho').value;
+  const limite = tamanho === 'P' ? 2 : 3;
   const qtdProteinas = quentinhaAtual.filter(isProteina).length;
 
-  if (qtdProteinas > max) {
-    alert(`Quentinha ${tam} só pode ter ${max} proteínas.`);
+  if (qtdProteinas > limite) {
+    alert(`Quentinha ${tamanho} só pode ter ${limite} proteínas.`);
     return;
   }
 
-  pedido.push({ tamanho: tam, itens: [...quentinhaAtual] });
+  pedido.push({
+    tamanho: tamanho,
+    itens: [...quentinhaAtual]
+  });
+
   quentinhaAtual = [];
   renderSelecionados();
   renderPedido();
-  toast('✅ Quentinha adicionada à comanda!');
+  toast("✅ Quentinha adicionada!");
 }
 
+/* =================== TABELA DA COMANDA =================== */
 function renderPedido() {
-  const tbody = document.querySelector('#pedidoTabela tbody');
-  tbody.innerHTML = '';
+  const tbody = document.querySelector("#pedidoTabela tbody");
+  tbody.innerHTML = "";
+
   pedido.forEach((q, i) => {
     tbody.innerHTML += `
       <tr>
         <td><strong>${q.tamanho}</strong></td>
-        <td>${q.itens.join(', ')}</td>
+        <td>${q.itens.join(", ")}</td>
         <td>
           <button class="btn-secondary" onclick="removerQuentinha(${i})">Remover</button>
           <button class="btn-ghost" onclick="duplicarQuentinha(${i})">+</button>
@@ -169,107 +209,101 @@ function removerQuentinha(i) {
 }
 
 function duplicarQuentinha(i) {
-  const quentinhaDuplicada = { tamanho: pedido[i].tamanho, itens: [...pedido[i].itens] };
-  pedido.push(quentinhaDuplicada);
+  pedido.push({
+    tamanho: pedido[i].tamanho,
+    itens: [...pedido[i].itens]
+  });
+
   renderPedido();
-  toast('🔁 Quentinha duplicada com sucesso!');
+  toast("🔁 Quentinha duplicada!");
 }
 
-/* ====== Entrega / Pagamento ====== */
+/* =================== ENTREGA E PAGAMENTO =================== */
 function toggleEndereco() {
-  const val = document.getElementById('tipoEntrega').value;
-  document.getElementById('bairroWrap').style.display = val === 'entrega' ? 'block' : 'none';
+  const val = document.getElementById("tipoEntrega").value;
+  document.getElementById("bairroWrap").style.display = val === "entrega" ? "block" : "none";
 }
 
 function toggleTroco() {
-  const val = document.getElementById('pagamento').value;
-  document.getElementById('trocoWrap').style.display = val === 'dinheiro' ? 'block' : 'none';
+  const val = document.getElementById("pagamento").value;
+  document.getElementById("trocoWrap").style.display = val === "dinheiro" ? "block" : "none";
 }
 
-/* ====== Impressão ====== */
+/* =================== IMPRESSÃO =================== */
 function imprimirPedido() {
-  if (pedido.length === 0) return alert('Adicione ao menos uma quentinha na comanda.');
+  if (pedido.length === 0) {
+    alert("Adicione ao menos uma quentinha!");
+    return;
+  }
 
-  const cliente = document.getElementById('cliente').value || 'Não informado';
-  const pagamento = document.getElementById('pagamento').value;
-  const trocoParaStr = document.getElementById('trocoPara').value?.replace(',', '.') || '';
-  const trocoPara = parseFloat(trocoParaStr);
-  const status = document.getElementById('statusPago').value;
-  const entrega = document.getElementById('tipoEntrega').value;
-  const bairro = document.getElementById('bairro').value;
-  const obs = document.getElementById('observacoes').value?.trim() || '';
-  const dataHora = new Date().toLocaleString('pt-BR');
+  const cliente = document.getElementById("cliente").value || "Não informado";
+  const pagamento = document.getElementById("pagamento").value;
+  const trocoPara = parseFloat((document.getElementById("trocoPara").value || "").replace(",", "."));
+  const status = document.getElementById("statusPago").value;
+  const entrega = document.getElementById("tipoEntrega").value;
+  const bairro = document.getElementById("bairro").value;
+  const obs = document.getElementById("observacoes").value?.trim() || "";
+  const dataHora = new Date().toLocaleString("pt-BR");
 
   let total = 0;
-  let blocoQuentinhas = '';
+  let bloco = "";
+
   pedido.forEach((q, i) => {
-    const preco = q.tamanho === 'P' ? PRECO_P : PRECO_G;
+    const preco = q.tamanho === "P" ? PRECO_P : PRECO_G;
     total += preco;
-    const itens = q.itens.map(x => `• ${x}`).join('<br>');
-    blocoQuentinhas += `
-      <div style="margin:8px 0 14px">
-        <strong>Quentinha ${i + 1} (${q.tamanho}) — ${fmt(preco)}:</strong><br>${itens}
+
+    bloco += `
+      <div style="margin:10px 0">
+        <strong>Quentinha ${i + 1} (${q.tamanho}) — ${fmt(preco)}:</strong><br>
+        ${q.itens.map(x => "• " + x).join("<br>")}
       </div>
     `;
   });
 
   let taxaEntrega = 0;
-  let entregaHTML = '';
-  if (entrega === 'entrega' && bairro) {
+
+  if (entrega === "entrega" && bairro) {
     taxaEntrega = taxasEntrega[bairro] || 0;
     total += taxaEntrega;
-    entregaHTML = `<p><strong>Entrega:</strong> ${bairro} — ${fmt(taxaEntrega)}</p>`;
   }
 
-  let pagamentoHTML = `<p><strong>Pagamento:</strong> ${pagamento.toUpperCase()}</p>`;
-  let trocoHTML = '';
-  if (pagamento === 'dinheiro' && !isNaN(trocoPara) && trocoPara > 0) {
-    pagamentoHTML += `<p><strong>Troco para:</strong> ${fmt(trocoPara)}</p>`;
-    const troco = trocoPara - total;
-    trocoHTML = `<p><strong>Troco:</strong> ${fmt(troco)}</p>`;
-  }
+  const janela = window.open("", "", "width=700,height=700");
 
-  const statusHTML = `<p><strong>Status:</strong> ${status === 'sim' ? 'Pago' : 'Não Pago'}</p>`;
-
-  const html = `
-    <div style="font-family:Segoe UI, sans-serif; padding:10px 14px; line-height:1.4">
+  janela.document.write(`
+    <html>
+    <head><title>Impressão</title><meta charset="UTF-8"></head>
+    <body style="font-family:Segoe UI; padding:20px">
       <h2 style="color:#FF6600">Pedido — ${cliente}</h2>
       <p><strong>Data/Hora:</strong> ${dataHora}</p>
-      ${pagamentoHTML}
-      ${statusHTML}
-      ${entregaHTML}
-      <hr style="margin:12px 0">
-      ${blocoQuentinhas}
-      ${obs ? `<p><strong>Observações:</strong> ${obs}</p>` : ''}
-      <hr style="margin:12px 0">
+      <p><strong>Pagamento:</strong> ${pagamento.toUpperCase()}</p>
+      <p><strong>Status:</strong> ${status === "sim" ? "Pago" : "Não Pago"}</p>
+      ${entrega === "entrega" ? `<p><strong>Entrega:</strong> ${bairro} — ${fmt(taxaEntrega)}</p>` : ""}
+      <hr>
+      ${bloco}
+      ${obs ? `<p><strong>Observações:</strong> ${obs}</p>` : ""}
+      <hr>
       <p><strong>Total:</strong> ${fmt(total)}</p>
-      ${trocoHTML}
-    </div>
-  `;
+    </body>
+    </html>
+  `);
 
-  const janela = window.open('', '', 'width=700,height=700');
-  janela.document.write(`<html><head><title>Impressão</title><meta charset="utf-8"></head><body>${html}</body></html>`);
   janela.document.close();
   janela.print();
 
-  // reset após imprimir
   pedido = [];
   quentinhaAtual = [];
   renderPedido();
   renderSelecionados();
-  document.getElementById('cliente').value = '';
-  document.getElementById('observacoes').value = '';
+  document.getElementById("cliente").value = "";
+  document.getElementById("observacoes").value = "";
 }
 
-/* ====== Dia automático ====== */
+/* =================== DIA AUTOMÁTICO =================== */
 function definirDiaAtual() {
-  const hoje = new Date().getDay(); // 0=domingo ... 6=sábado
-  const map = ['segunda','segunda','terca','quarta','quinta','sexta','sabado']; // domingo => segunda
-  document.getElementById('dia').value = map[hoje] || 'segunda';
+  const hoje = new Date().getDay();
+  const map = ["segunda", "segunda", "terca", "quarta", "quinta", "sexta", "sabado"];
+  document.getElementById("dia").value = map[hoje];
   atualizarMenu();
 }
 
-// Inicializa ao carregar
-window.addEventListener('DOMContentLoaded', () => {
-  definirDiaAtual();
-});
+window.addEventListener("DOMContentLoaded", definirDiaAtual);
