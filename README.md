@@ -1,73 +1,107 @@
-📦 DEU FOME — Sistema de Pedidos
+# 🍽 Sistema de Pedidos — DEU FOME
 
-Sistema simples, rápido e prático para montagem e impressão de comandas de quentinhas.
-Desenvolvido em HTML + CSS + JavaScript, totalmente responsivo e com modo escuro moderno.
+Um sistema simples, rápido e eficiente para montagem de pedidos de quentinhas, usado diretamente pelo dono do estabelecimento para organizar pedidos recebidos via WhatsApp e presencial.  
+O foco é **velocidade, clareza e impressão térmica**, garantindo agilidade na cozinha.
 
-Ideal para pequenos negócios que precisam montar pedidos com rapidez e organização.
+---
 
-🖥 Demonstração
+## ✨ Funcionalidades
 
-<img width="1332" height="521" alt="image" src="https://github.com/user-attachments/assets/390276d0-9090-4370-9a35-3ba6deb2b70f" />
+### 🛠 Configurações do Pedido
+- Seleção de **cliente**
+- Escolha do **dia do cardápio**
+- Tamanho da quentinha:  
+  - **P (2 proteínas)**
+  - **G (3 proteínas)**
+- Tipo de entrega: **Retirada** ou **Entrega**
+- Seleção de **bairro** com taxa automática
+- Método de pagamento: **Pix** ou **Dinheiro**
+- Campo “**Troco para**” com cálculo automático
+- Status: **Pago / Não pago**
 
-🚀 Funcionalidades
-🔸 Cardápio automático
-Atualiza automaticamente pelo dia da semana
-Acompanhamentos, proteínas e saladas dinâmicas
-Botões rápidos para adicionar itens
+---
 
-🔸 Montagem inteligente da quentinha
-Controle automático de proteínas
-P = 2 proteínas
-G = 3 proteínas
-Remover itens individualmente
-Recomeçar montagem com 1 clique
+## 🍛 Montagem da Quentinha
+- Cardápio dinâmico baseado no dia escolhido  
+- Botões rápidos para adicionar acompanhamentos, proteínas e saladas  
+- Controle automático do limite de proteínas conforme o tamanho  
+- Chips removíveis para editar itens selecionados  
+- Botão **Duplicar quentinha**  
+- Botão **Limpar seleção**
 
-🔸 Gerenciamento da comanda
-Adicionar múltiplas quentinhas
-Duplicar uma quentinha já montada
-Remover quentinhas
+---
 
-🔸 Entrega
-Lista completa de bairros + taxas de entrega
-Cálculo automático do valor final
+## 📄 Comanda Final
+- Exibe todas as quentinhas adicionadas  
+- Permite editar ou remover antes de imprimir  
+- Campo de observações  
+- Cálculo final automático:
+  - Valor total das quentinhas  
+  - Taxa de entrega  
+  - Troco real (quando pagamento for dinheiro)
 
-🔸 Pagamento
-PIX ou Dinheiro
-Campo “Troco para” aparece somente quando necessário
-Cálculo automático do troco
+---
 
-🔸 Impressão profissional
-Comanda limpa, organizada e pronta para impressão térmica
-Contém:
-Cliente
-Data e hora
-Itens
-Observações
-Total
-Status de pagamento
+## 🖨 Impressão Térmica Profissional (80mm)
 
-📁 Estrutura do Projeto
-/
-├── index.html
-├── css/
-│   └── style.css
-└── js/
-    └── script.js
+Formato otimizado para impressoras térmicas:
 
-🔧 Tecnologias Utilizadas
+- Cabeçalho limpo e centralizado (**DEU FOME**)  
+- Informações separadas linha a linha:
+  - Cliente  
+  - Data e hora  
+  - Pagamento  
+  - Status  
+  - Entrega + taxa  
+  - Troco para  
+  - Troco calculado  
+- Separadores estilo comanda  
+- Listagem organizada da quentinha  
+- Campo de observações  
+- Total final
 
-HTML5
-CSS3 (modo escuro, grid, responsividade)
-JavaScript Puro (ES6)
+  <img width="533" height="731" alt="image" src="https://github.com/user-attachments/assets/acc94116-f1de-4e5b-b775-1d9a19fe1ff5" />
 
-Nenhum framework necessário.
-Roda offline, no navegador, em qualquer dispositivo.
+  
+---
 
-<img width="1328" height="594" alt="image" src="https://github.com/user-attachments/assets/6cdc1ba4-34d6-42d6-91b4-8fba269631f2" />
-<img width="1340" height="378" alt="image" src="https://github.com/user-attachments/assets/b2c2ff18-fba0-4ba5-952d-7dfb56406677" />
-<img width="400" height="353" alt="image" src="https://github.com/user-attachments/assets/51b5fed5-6df8-43ce-b018-8df9f8d27567" />
+## 🧾 Objetivo do Sistema
 
-✨ Autor
+Este sistema foi criado com foco em:
 
-Lucas Nascimento
-Desenvolvedor •
+- **Agilidade na preparação dos pedidos**
+- **Leitura rápida pela cozinha**
+- **Impressão prática e clara**
+- **Menos erros ao montar quentinhas**
+- **Organização do fluxo de pedidos diariamente**
+
+Ele **não possui login** e não armazena pedidos; o objetivo é ser **rápido, simples e direto ao ponto**, exatamente para o fluxo real de pequenas cozinhas e delivery local.
+
+---
+
+## 🧰 Tecnologias Utilizadas
+- **HTML5**
+- **CSS3 (tema dark, moderno e clean)**
+- **JavaScript puro (Vanilla JS)**  
+- Sistema totalmente offline e rápido, funcionando em qualquer navegador.
+
+---
+
+## 📌 Próximas Melhorias (planejadas)
+- Número de pedido automático (001, 002, 003…)  
+- Impressão em duas vias (Cozinha / Embalagem)  
+- Versão compacta estilo cupom fiscal  
+- QR Code Pix na comanda  
+- Tema claro opcional  
+
+---
+
+## 👨‍💻 Autor
+**Lucas Nascimento**  
+Desenvolvedor Web •
+
+---
+
+## 📄 Licença
+Uso livre para fins pessoais e comerciais locais.  
+Proibida revenda como produto de terceiros.
